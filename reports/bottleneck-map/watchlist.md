@@ -1,6 +1,6 @@
 # 瓶颈猎手观察名单（持续更新）
 
-最后更新：2026-05-26 07:31（第三轮扫描）  
+最后更新：2026-05-26 09:09（第五轮扫描）  
 下次复查：下次扫描
 
 ---
@@ -34,7 +34,7 @@
 
 ---
 
-### 2. Chemring Group (CHG.L，伦敦交易所) ★★★★ 【2026-05-25新增 | 2026-05-26强化，候选升★★★★★】
+### 2. Chemring Group (CHG.L，伦敦交易所) ★★★★ 【2026-05-25新增 | 2026-05-26强化 | 2026-05-26 09:09 Sole-Source确认，候选升★★★★★】
 **瓶颈环节**：能量材料/固体推进剂（国防弹药链，A级）  
 **市值**：约£1.3B（约$1.6B），FTSE 250成分股  
 **瓶颈核心逻辑**：固体推进剂+高能炸药（HMX/RDX）+烟火技术是精确制导弹药的物理上游，是NATO盟国独立能量材料供应商中少数可投资的上市公司；挪威基地规划**275%扩产**，签订12-15年长期合同，是NATO供应链重建最主要受益商之一。  
@@ -43,6 +43,7 @@
 - ✅ 订单簿£13.45亿，**订单覆盖率从76%升至85%（FY26）** — 2026-05-26新确认↑
 - ✅ 12国生产设施，地理分散降低单点风险
 - ✅ **挪威基地275%扩产计划**，与客户签订12-15年合同 — 2026-05-26新确认
+- ✅ **SOLE-SOURCE确认（2026-05-26 09:09）**：Diehl Defence + Nammo 155mm合同文本明确——Nammo"完全依赖Chemring Nobel作为MCX唯一合格供应商"。12年框架协议初始PO £200M（€231M），专供德国联邦军+NATO 155mm炮弹生产。
 - ✅ P/S约2.6x，低于美国同业（Aerojet P/S~5x），估值绿灯
 - ✅ **7位分析师全部Buy，0 Sell；平均目标价633p（现价531p，+19%隐含上涨空间）**
 - ✅ **Rheinmetall独立抢购NC供应**（交叉验证NC紧缺是全NATO共识，不只Chemring视角）
@@ -154,15 +155,17 @@
 **估值**：P/S ~7.4x（绿灯），P/E ~45x（TTM 净利$78M，黄灯）  
 **瓶颈核心逻辑**：唯一西方商业规模 HALEU 富集商（Piketon, Ohio）；DOE $2.7B 任务指令背书；2030 年 HALEU 需求 40,000 kg/年+（是当前 Centrus 产能 12 MT 的 3.3 倍）；新竞争者进入需 10-15 年。  
 **信号验证**：
-- ✅ DOE 任务指令 $900M HALEU + $2.3B 商业 LEU 积压（收入可见度高）
+- ✅ DOE 任务指令 $900M HALEU（2026-01-05确认，固定价格任务订单，Piketon Ohio扩产） + $2.3B 商业 LEU 积压（收入可见度高）
 - ✅ Piketon 设施已投产（2025-12），12 MT/年产能
+- ✅ **Oak Ridge $560M扩产（2026-05-26新增）**：投资超$5.6亿将Oak Ridge, Tennessee离心机工厂升级为高速率制造，创430+新岗位；Fluor负责工程/项目管理；Palantir AI平台识别约$3亿潜在节省
 - ✅ Oklo JV 洽谈（HALEU 脱转化服务，Piketon 成燃料中枢）
-- ✅ 2026 年收入指引上调至 $450-500M
+- ✅ 2026 年收入指引上调至 $450-500M（已确认）
+- ⚠️ **Q1 2026净利润大幅下滑（2026-05-26新增）**：收入$76.7M(+5% YoY)，但净利润从$27.2M降至$10M——同比-63%。需关注盈利质量下降是否结构性
 - ⚠️ SMR 商业化时间线多次延迟（NuScale UAMPS 项目已取消）
 - ❌ 尚无大型商业客户签约（TerraPower、Kairos 等仍在建设阶段）
 **催化剂**：SMR 项目商业化时间确认；Centrus Q2 2026 财报；Oklo JV 签约；DOE 制度性 HALEU 库存政策  
-**建议行动**：持续跟踪，等 SMR 里程碑后评估执行 `/investment-team`  
-**来源**：[Centrus Q1 2026](https://www.prnewswire.com/news-releases/centrus-reports-first-quarter-2026-results-302763250.html) | [HALEU Nuclear Fuel Deals](https://neutronbytes.com/2026/03/15/nuclear-fuel-deals-take-center-stage-for-smrs/)
+**建议行动**：持续跟踪，等 SMR 里程碑后评估执行 `/investment-team`；重点关注Q2净利润是否恢复  
+**来源**：[Centrus Q1 2026](https://www.prnewswire.com/news-releases/centrus-reports-first-quarter-2026-results-302763250.html) | [HALEU Nuclear Fuel Deals](https://neutronbytes.com/2026/03/15/nuclear-fuel-deals-take-center-stage-for-smrs/) | [Centrus Oak Ridge扩产 — NEI Magazine](https://www.neimagazine.com/news/centrus-expands-oak-ridge-facility/) | [DOE $900M任务订单](https://investors.centrusenergy.com/news-releases/news-release-details/centrus-awarded-900-million-expand-uranium-enrichment-ohio)
 
 ---
 
@@ -220,3 +223,5 @@
 | 2026-05-26 07:31 | LEU | **新增★★★** | Centrus Energy：唯一西方HALEU商业富集商；DOE $2.7B任务指令；P/S 7.4x绿灯；等SMR商业化催化剂 |
 | 2026-05-26 08:10 | VECO | **⚠️合并待完成，暂停独立评估** | Axcelis全股票收购，$44亿，ACLS股东已批准，最后障碍：中国SAMR审批（H2 2026预期）；VECO独立逻辑终止 |
 | 2026-05-26 08:10 | ACLS | **新增★★★（VECO合并后载体）** | 合并后MOCVD+离子注入双平台，合并后P/S~3.3x合理；等SAMR结果+回调至分析师目标区间$100-110再评估 |
+| 2026-05-26 09:09 | CHG.L | **Sole-source确认，候选★★★★★** | Nammo"完全依赖Chemring Nobel作为MCX唯一合格供应商"——合同文本证据；12年Diehl框架协议£200M；German/NATO 155mm供应链卡脖子位置锁定 |
+| 2026-05-26 09:09 | LEU | **信息更新（评级不变★★★）** | Oak Ridge $560M扩产（+Fluor/Palantir）；DOE $900M任务订单；⚠️Q1净利润$10M（vs去年$27.2M，下滑63%），需监控盈利质量 |

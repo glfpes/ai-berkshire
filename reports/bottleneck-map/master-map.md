@@ -1,6 +1,6 @@
 # 供应链瓶颈总地图（持续更新）
 
-最后更新：2026-05-26 08:10（第四轮扫描）
+最后更新：2026-05-26 09:09（第五轮扫描）
 
 ---
 
@@ -136,7 +136,17 @@
 
 **催化剂**：L3Harris Missile Solutions IPO（S-1已提交，2026H2目标上市，DoD $10亿股权投资）
 
-**来源**：[Chemring 2025年报](https://www.chemring.com/~/media/Files/C/Chemring-V3/docs/chemring-annual-report-and-accounts-2025-v1.pdf) | [L3Harris IPO计划](https://www.gurufocus.com/news/8831123/l3harris-lhx-moves-forward-with-ipo-plans-for-missile-solutions-business) | [EPC.EU硝化纤维素报告](https://www.epc.eu/publication/running-on-empty-the-chemical-shortage-undermining-european-defence/)
+**2026-05-26 09:09 新增——Chemring Nobel Sole-Source确认**：
+- Chemring Nobel是Nammo AS 155mm高级弹药生产的**唯一合格MCX供应商**（合同文本确认）
+- Diehl Defence + Nammo AS合作为德国联邦军/NATO生产155mm炮弹，完全依赖Chemring Nobel的MCX材料
+- 12年框架协议（初始PO £200M/€231M，2027年起交付）——实质将Chemring Nobel锁定为德国155mm供应链的卡脖子节点
+
+**2026-05-26 09:09 新增——Lake City弹药厂罢工（信号，非结构性瓶颈）**：
+- Lake City Army Ammunition Plant（密苏里州）IAM Local 778罢工4月4日起，1,350+工人，生产几近停摆
+- Lake City占美国.223/5.56mm NATO小口径弹药约30%产量，由Winchester/Olin（OLN）运营
+- **性质判断**：这是劳资纠纷而非结构性瓶颈，DoD短期影响真实，但可被其他供应商弥补；Olin是负面影响方，不是机会；暂不列入主追踪名单，但作为美国国防弹药供应链压力的背景信号继续跟踪
+
+**来源**：[Chemring 2025年报](https://www.chemring.com/~/media/Files/C/Chemring-V3/docs/chemring-annual-report-and-accounts-2025-v1.pdf) | [L3Harris IPO计划](https://www.gurufocus.com/news/8831123/l3harris-lhx-moves-forward-with-ipo-plans-for-missile-solutions-business) | [EPC.EU硝化纤维素报告](https://www.epc.eu/publication/running-on-empty-the-chemical-shortage-undermining-european-defence/) | [Diehl MCX 12年合同 — defence-industry.eu](https://defence-industry.eu/chemring-secures-long-term-contract-with-diehl-defence-for-energetic-materials-supply/) | [Lake City罢工 — National Interest](https://nationalinterest.org/blog/buzz/ammunition-plant-strike-could-leave-us-soldiers-without-bullets-ps-041126)
 
 ---
 
@@ -195,3 +205,6 @@
 | 2026-05-26 08:10 | **VECO/ACLS合并** | MOCVD设备A级：Axcelis全股票收购Veeco（$44亿），ACLS股东已批准，中国SAMR审批待完成（H2 2026）；VECO独立标的逻辑暂停，ACLS成MOCVD敞口载体；合并后P/S~3.3x，分析师目标价较现价低35% |
 | 2026-05-26 08:10 | **ICL溴化物再确认** | Q1 2026收入$20亿（+14%），EBITDA$4.12亿（+15%），溴价$12,000/MT维持高位，FY EBITDA指引上调至$1.5B-$1.7B；瓶颈信号持续，但ICL非纯正可投资标的 |
 | 2026-05-26 08:10 | **Chemring Tennessee设施** | 新自动化设施过渡性中断（非现金减值），FY指引维持，不影响长期逻辑；6月9日半年报为下一验证点 |
+| 2026-05-26 09:09 | **Chemring sole-source确认** | Nammo "完全依赖Chemring Nobel作为MCX唯一合格供应商"——12年Diehl合同文本证据；德国155mm供应链咽喉位置文本锁定 |
+| 2026-05-26 09:09 | **新增背景信号** | Lake City Army Ammunition Plant罢工（4/4起）：1350+工人，生产几乎停摆；30%美军.223/5.56产量受影响；性质：劳资纠纷非结构性瓶颈；不列主追踪，作为美国弹药供应链压力背景信号 |
+| 2026-05-26 09:09 | **LEU信息更新** | Centrus Oak Ridge $560M扩产（1月宣布）+ Fluor工程合作 + DOE $900M HALEU任务订单 + Q1净利润大幅下滑（$27.2M→$10M）；增速放缓需关注 |
