@@ -1075,3 +1075,107 @@ NF₃主要客户：TSMC、Samsung、Micron、Kioxia、Rapidus——几乎覆盖
 
 **评级维持★★★★**，CoWoP为2028+风险注记，不影响2026-2027投资论点
 
+---
+
+## 【2026-06-08 19:00 观察名单更新】
+
+### 4047.T（Kanto Denka）★★★★ — 股价回调至¥3,560，重回入场区间以下
+
+**【2026-06-08 19:00 股价更新】**
+- 当前股价：**¥3,560**（-1.79% 近24小时），已低于历史高点¥3,775（2026-05-29）
+- 原入场区间¥3,800-4,200需要上涨约+6.7%才能触达
+- **操作意义**：当前位置比入场区间低7%，论点不变的情况下，若明日东京开盘股价维持在¥3,500-3,800区间，则入场区间下沿可能需要向下修订至¥3,400-4,000
+- 双气体瓶颈（NF₃唯一供应商+WF₆原材料短缺）维持S级，论点不变
+
+*来源：MSN Money / TradingView 2026-06-08*
+
+---
+
+### AXTI（AXT Inc）★★ — 新增观察名单：InP衬底 Layer 3 瓶颈
+
+**【2026-06-08 19:00 新增】**
+
+**一句话定位**：全球InP（磷化铟）衬底供需缺口43-50%，是EML激光器 → 800G光模块 → AI数据中心链条中Layer 3关键卡点。AXT是最具流动性的美股小市值代理标的。
+
+**供需缺口**：
+- 月需求：700k-800k片（2026年）
+- 月供给：~400k片
+- 缺口：43-50%，持续至2027年EML产能爬坡
+
+**财务快照（Q1 2026）**：
+
+| 指标 | 数据 | 信号灯 |
+|------|------|-------|
+| 市值（估计） | ~$2.0B（基于$44.30/股，3月10日） | — |
+| Q1 收入 | $26.9M | — |
+| Q2 指引 | ≥$34M | — |
+| 年化收入（2026E） | ~$130-150M（估计） | — |
+| PS（估计） | ~13-15x | 🟡 黄灯（增速>100%豁免红线，但绝对值偏高） |
+| PE | 首年盈利（Q2起），PE不适用 | 🟡 |
+| InP积压 | **$100M**（Q1 2026） | — |
+| 收入增速 | >100%（估计，待Q2财报确认） | — |
+
+**估值检查**：
+- 🔴 **红灯触发**：市值~$2.0B > 全球InP衬底TAM（估~$1.3B/年）的20%（$260M）
+- 📝 反驳：2028-2029 CPO inflection将使InP TAM扩张3-5倍；当前TAM为快照，不代表终态
+- **信号强度封顶★★**（按规则，红灯触发不得超过★★）
+
+**10年25xPE退出**：需净利润$207M；假设净利率20%需营收$1.04B；从$140M增至$1.04B需10年CAGR 22.2%——边界情景，无安全边际
+
+**看多**：
+1. 物理缺口最直接：InP是制造EML激光器的唯一基础材料，无可替代路径（2028前）
+2. Nvidia $4B锁定Lumentum/Coherent的EML产能 → 倒逼上游InP扩产，AXTI订单积压$100M已体现
+3. Q2首次盈利是估值重新评级触发器
+
+**看空**：
+1. 市值超过当前年度TAM，完全依赖高增速兑现
+2. Sumitomo Electric（5802.T）是更大的InP供应商，AXTI非唯一
+3. 硅光子 + CW激光路径在CPO场景下可减少EML/InP需求
+
+**升级到★★★条件**：Q2财报（预计2026年7月下旬）确认：①收入增速维持>100%；②GAAP盈利；③全年指引上调；④TAM证据更新（如行业报告显示InP市场规模>$3B）
+
+*来源：[AXT Q1 2026 — BigGo Finance](https://finance.biggo.com/news/US_AXTI_2026-04-30) | [Photoncap AXTI Deep Dive](https://photoncap.net/p/axt-inc-axti-deep-dive-the-hidden) | [InP Supply Demand — Wukong Substack](https://wukong123.substack.com/p/inp-substrate-supply-demand-price)*
+
+---
+
+### ALM（Almonty Industries）★★★ — 最新状态：CB结算明日，PT$25，Russell确认
+
+**【2026-06-08 19:00 数据更新】**
+- 股价（6/7收盘）：**$16.80**
+- Oppenheimer分析师 Ian Zaffino PT：$25（从$22上调）→ 隐含上行空间 **+48.8%**
+- Russell 1000/3000纳入日期：**6月29日确认**（被动资金净买入约1,300万股，约3倍ADTV）
+- **明日（6/9）**：$700M CB结算 + AGM——双重事件同日
+- 中国MRL矿产资源法：**6月15日**（7天后）正式生效
+
+**升级至★★★★条件**（维持前一版本）：
+1. 6/9 AGM无负面意外
+2. Q1 Sangdong生产数据接近设计产能
+
+*来源：[MarketBeat ALM分析师目标](https://www.marketbeat.com/stocks/NASDAQ/ALM/) | [StockTitan — CB结算公告](https://www.stocktitan.net/news/ALM/almonty-industries-prices-oversubscribed-us-700-million-convertible-zjhfqft1du4p.html)*
+
+---
+
+### CHG.L（Chemring）★★★★ — H1 2026数据修正：整体营业利润-8%
+
+**【2026-06-08 19:00 数据补全】**
+
+H1 2026完整财报（2026-06-02发布）：
+- 总收入：£237.3M（+6.5% YoY）
+- **整体营业利润：£24.5M（-8% YoY）**——此前记录未包含此数字
+- 整体利润率：10.3%（vs 去年约12%）
+- 现金转化率：**42%**（vs 去年83%）——大幅下降，原因是工作资本投入加大
+
+分部细节：
+- Countermeasures & Energetics：收入+9%，**营业利润+32%**（强）
+- 其他分部（传感器/检测）：OP有压力，拖累整体
+
+**为什么整体OP下降但论点不变**：
+- 三工厂（芝加哥/苏格兰/挪威）建设期大量资本投入 → 正在积累未来产能
+- 管理层指引：H2现金转化率将改善（工作资本投入高峰已过）
+- 订单簿£14亿（历史最高，+8% YoY），91%的2026年收入已在手
+- 现在投入 = 2027-2028年产能释放 = 量价齐升
+
+**评级维持★★★★**，但补充"短期利润率压力来自产能建设期"注记
+
+*来源：[Chemring H1 2026 Earnings Call — MarketBeat](https://www.marketbeat.com/earnings/reports/2026-6-2-chemring-group-plc-chgl-stock/) | [Seeking Alpha — Chemring Q2 2026 Results](https://seekingalpha.com/article/4910857-chemring-group-plc-2026-q2-results-earnings-call-presentation)*
+
