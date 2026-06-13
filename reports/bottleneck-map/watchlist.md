@@ -3360,3 +3360,57 @@ H1 2026完整财报（2026-06-02发布）：
 
 来源：[TechTimes Mach/Exquadrum](https://www.techtimes.com/articles/317132/20260525/mach-industries-buys-exquadrum-50m-solid-rocket-motor-shortage-drove-deal.htm) / [Breaking Defense SRM](https://breakingdefense.com/2026/01/with-the-boom-for-solid-rocket-motors-for-missiles-a-perilous-crunch-in-the-supply-chain/) / [IQE ADR](https://www.sec.gov/Archives/edgar/data/1550405/000119380526000476/e665377_f6ef-iqe.htm) / [CHG.L持仓通知](https://www.tradingview.com/news/reuters.com,2026-06-10:newsml_RSJ7677Ha:0-reg-chemring-group-plc-holding-s-in-command/)
 
+---
+
+### 状态更新（2026-06-13 01:08）
+
+#### 新增：三井金属矿业（5706.T）— HVLP4铜箔第一大供应商
+
+| 属性 | 内容 |
+|------|------|
+| 公司 | 三井金属矿业（Mitsui Kinzoku Mining & Smelting Co., Ltd.） |
+| 代码 | 5706.T（东京证券交易所） |
+| 瓶颈环节 | HVLP4超低粗糙度铜箔，Layer 2，S级瓶颈 |
+| 瓶颈评级 | S级 |
+| 市场地位 | 全球第一大HVLP4供应商，月产能上限490吨 |
+| 客户 | AI服务器PCB厂（各大CCL+PCB制造商），NVIDIA通过供应链间接客户 |
+| 财务快照 | 市值¥1.0T≈$6.6B / 收入¥758.5B≈$5.1B / 净利¥91.2B≈$609M |
+| PS / PE | **1.3x / 10.8x（双绿灯）** |
+| 利润增速 | 营业利润+75% YoY / 净利+41% YoY（FY2026，截至2026-03） |
+| 铜箔业务占比 | ⚠️ 估计24-30%（Engineered Materials段，接近但未确认>30%门槛） |
+| 估值透支条件 | 全部不触发：PS 1.3x / PE 10.8x / 收入5年乐观预测×10>>$6.6B |
+| 10年25xPE退出 | 1.2% CAGR → 10%年化（近乎保底）；5% CAGR → 14.2%年化 ✅ |
+| 风险 | ①铜箔纯正度<30%（主要顾虑）；②日元升值风险；③部分利好已被定价（股价创历史新高） |
+| 信号强度 | **★★★** |
+| 升级触发条件 | 查FY2026段报告，Engineered Materials/铜箔收入>总收入30% → 升★★★★ |
+| 买入等待价 | 当前估值已绿灯，可直接研究。但建议先确认纯正度再操作 |
+| 首次进入 | 2026-06-13 01:08 |
+| 来源 | [高盛HVLP4 Bitget](https://www.bitget.com/asia/amp/news/detail/12560605420411) / [三井FY2026 BigGo](https://finance.biggo.com/news/jpx_tdnet_140120260511522360) / [NVIDIA接触Co-Tech Digitimes](https://www.digitimes.com/news/a20260609PD232/co-tech-copper-foil-nvidia-2026-capacity.html) / [Futunn HVLP4](https://news.futunn.com/en/post/74502051/ai-material-shortages-spread-nvidia-steps-in-directly-to-secure) |
+
+#### Co-Tech Development（8358.TWO）— 新催化剂，评级维持
+
+| 变化 | 内容 |
+|------|------|
+| 新催化剂 | NVIDIA于2026-06-08直接就HVLP4长期产能向Co-Tech接洽（Digitimes 6/9独家）。这是NVIDIA首次公开绕过CCL层直接与铜箔供应商谈判 |
+| 估值更新 | 市值NT$155.28B≈$4.85B；前向2026收入估NT$12-15B（PS约10-13x）；前向2027收入估NT$18B（PS约8.6x，接近≤10x升级触发线） |
+| 评级变化 | **★★★维持**（PS仍略高于10x门槛，等待前向PS<10x确认） |
+| 升级触发 | Q2 2026财报（约8月）验证HVLP4收入，若前向PS降至<10x → 升★★★★ |
+| 来源 | [Digitimes 6/9 Co-Tech/NVIDIA](https://www.digitimes.com/news/a20260609PD232/co-tech-copper-foil-nvidia-2026-capacity.html) |
+
+#### 乐天能源材料（020150.KS）— 高盛报告论点强化
+
+高盛HVLP4三年结构性短缺报告（28-39%，2026-2028）直接强化乐天能源材料的HVLP4爬坡论点。评级★★★维持，等Q2 2026财报（约8月）验证HVLP4收入占比。
+
+#### 催化剂时间表（2026-06-13 01:08版）
+
+| 日期 | 事件 | 标的 | 优先级 |
+|------|------|------|--------|
+| **6/29（T-16天）** | ALM Russell 1000纳入 + Nittobo 5:1分拆（除权日） | ALM ★★★★ / 3110.T ★★★★ | 🟡中 |
+| **6/30（T-17天）** | **LEU DOE Option 1b行权截止（2年/$163.5M）** | LEU ★★★★★ | 🔴最高 |
+| **7/1（T-18天）** | **Central Glass WF₆停产 → 4047.T WF₆状态确认节点**；NF₃垄断持续强化 | 4047.T ★★★★★⚠️ | 🔴最高 |
+| **~8月** | ICL Q2财报 + 美伊停火到期 | ICL ★★★★★ | 🔴最高 |
+| **~8月** | 关东电化Q1 FY2027财报（WF₆+NF₃双垄断首季验证） | 4047.T ★★★★★⚠️ | 🔴高 |
+| **~8月** | Co-Tech / Lotte Q2财报（HVLP4收入验证） | 8358.TWO ★★★ / 020150.KS ★★★ | 🟡中 |
+| **5706.T即时** | 查FY2026段报告验证铜箔业务>30%收入 | 5706.T ★★★ | 🟡中（行动项） |
+| **12月** | Chemring全年财报 | CHG.L ★★★★ | 🟡中 |
+
