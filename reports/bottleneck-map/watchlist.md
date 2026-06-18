@@ -5776,3 +5776,27 @@ Kanto Denka Kogyo 7/1永久停止WF6生产，**投资论点核心为NF3，而非
 **维持★★封顶原因**：当前无签约offtake，3月曾再融资补运营资金，盈利路径不清晰。
 
 *来源：Carra Globe 2026（Ras Laffan打击）；London Stock Exchange（HEX.L市值）；Proactive Investors 2026（offtake进展）；Santiago & Company（停火后氦气危机）*
+
+## 状态快照（2026-06-18 20:00 — 第239轮）
+
+> 主要变更：① **特朗普DPA第708条（6/11签署，6/16-18公开见报）援引固体火箭发动机(SRM)/引信/制导系统为国家安全瓶颈**——直接命名CHG.L论文，SRM瓶颈评级S级官方背书；② **L3Harris Missile Solutions IPO H2 2026** DPA加持，为IPO后SRM纯标的；③ **Ajinomoto ABF薄膜Q3 2026提价30%** 台湾基板厂已收通知，AI供应链成本扩散；④ 其余标的（ICL/LEU/4047.T/3110.T/2327.TW/IQE.L）19:00结论有效，无新信号。
+
+| 标的 | 代码 | 评级 | 变化 | 关键状态 |
+|------|------|------|------|---------|
+| **Centrus Energy** | LEU | ★★★★★ | 无变化 | 6/30 Option 1b（T-12天）二元事件 |
+| **ICL Group** | ICL | ★★★★ | ⚠️ 论文条件弱化监察中 | 溴价$3,476/MT临界$3,000；6/19-20数据关键 |
+| **Nittobo** | 3110.T | ★★★★ | 无变化 | 5:1拆股6/29记录日/7/1有效日，T-11天 |
+| **Yageo** | 2327.TW | ★★★★ | 无变化 | Q2财报7月为升评节点 |
+| **IQE** | IQE.L | ★★★★ | 无变化 | Tower协议已签；等8月H1财报 |
+| **Chemring** | CHG.L | ★★★★ | **⬆ DPA直接命名，论文强化** | DPA第708条点名SRM/energetics为国家安全瓶颈；Chemring Americas直接受益；H1中报（8月）为财务验证节点 |
+| **関東電化** | 4047.T | ★★★★★（最紧迫） | 无变化 | 7/1永久停产（T-13天） |
+| **GMT** | 8081.TW | ★★★ | 无变化 | PMIC A级；PE 12x/PS 2.6x绿灯 |
+| **Foosung** | 093370.KS | ★★★ | 无变化 | WF6 7/1停产受益；等Q2财报 |
+| **Iljin Electric** | 103590.KS | ★★★ | 无变化 | 变压器36-48月交期 |
+| **ALM Almonty** | ALM | ★★ | 无变化 | 估值红灯（市值$5.19B）仍触发 |
+| **AXT Inc** | AXTI | ★★ | 无变化 | 等Q2财报（7月下旬） |
+| **Helix Exploration** | HEX.L / HHEXF | ★★ | 无变化 | 等offtake签约 |
+| **uPI Semiconductor** | 6719.TW | ★★★（初始） | 无变化 | 估值核查待完成 |
+| **L3Harris Missile Solutions** | 待IPO★ | 无变化（DPA加持） | H2 2026 IPO；DoD $1B已交割；SRM纯标的候补 |
+
+*来源：Washington Times 2026-06-18（DPA援引）；US News 2026-06-16（DPA援引）；Breaking Defense 2026-01（SRM crunch）；SpaceNews 2026-01-13（L3Harris $1B投资）；Digitimes 2026-05-13（ABF +30%）；Stockopedia（CHG.L 533p/市值£1.46B）*
