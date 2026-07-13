@@ -2,6 +2,7 @@ logs/command-log.jsonl
 reports/美团/command-log.jsonl
 .DS_Store
 reports/.DS_Store
+.idea/
 
 # 雪球爬虫登录态缓存（含 cookies，本地使用）
 /tmp/xueqiu_state.json
