@@ -79,10 +79,12 @@ baseline 的目标是回答「相对最近，当前价便不便宜」。**注意
 auto-runner/
 ├── auto-runner-v1.md      本文档：策略思路 + 实现说明
 ├── market_data.py         数据层：拉取美股 60 天成交数据 + PE
-└── strategy_screen.py     策略层：四关体检 + 买卖判断（依赖 market_data.py）
+├── strategy_screen.py     策略层：单标的四关体检 + 买卖判断（依赖 market_data.py）
+├── batch_screen.py        批量层：对一批/指数成分股并发跑策略，汇总 BUY/WAIT/REJECT
+└── review_positions.py    复盘层：对已建仓标的逐日判定止盈/止损，输出盈亏（依赖 market_data.py）
 ```
 
-分层设计：`market_data.py` 只负责「取数」，`strategy_screen.py` 只负责「判断」。取数逻辑变化不影响策略逻辑，反之亦然。
+分层设计：`market_data.py` 只负责「取数」，`strategy_screen.py` 只负责「判断」，`batch_screen.py` 负责「批量选股」，`review_positions.py` 负责「建仓后复盘」。各层职责单一，互不影响。
 
 ### 版本演进（做了哪些改动）
 
@@ -92,6 +94,8 @@ auto-runner/
 | 加策略 | 新增 `strategy_screen.py`，实现四关体检 | 把「找会波动、跌不穿、又不贵的票」的想法量化 |
 | 改 baseline | baseline 从 `(均值+中位+MA20)/3` 改为 `0.7×EMA20 + 0.3×中位数` | 纯均值在急跌市被 60 天前旧高价拖偏，产生「假便宜」信号（如 SK海力士腰斩仍显示便宜 -22%）。EMA 近期加权紧跟真实中枢，消除接飞刀陷阱 |
 | 调阈值 | 入场折价阈值 3% → 2% | EMA 比均值更贴近现价，折价数字天然变小，需下调阈值否则 BUY 信号过难触发 |
+| 加批量 | 新增 `batch_screen.py`（内置 Nasdaq-100 名单，并发扫描） | 从「单只体检」升级到「全指数选股」，一次找出所有符合条件的标的 |
+| 加复盘 | 新增 `review_positions.py`（逐日止盈/止损判定） | 建仓后需验证策略是否有效——用每日「最高价」判 +5% 止盈、「最低价」判止损 |
 
 ### 关键计算（有什么计算）
 
@@ -185,3 +189,72 @@ print(r["gates"]["baseline"])  # baseline 明细
 > 分批低吸，止盈 3%~5% 清仓，跌破 baseline 下方 8% 止损。
 
 **调参**：直接修改 `strategy_screen.py` 顶部常量即可（如周期股放宽 `PE_MAX`、低波动市场下调 `VOL_ANNUAL_MIN`）。
+
+---
+
+## 完整工作流：从选股到复盘
+
+一次完整的实践分三步：**批量选股 → 记录建仓 → 逐日复盘**。
+
+### 步骤 1：批量选股（`batch_screen.py`）
+
+从指数成分股里一次性筛出所有符合条件的标的：
+
+```bash
+python3 batch_screen.py --nasdaq100            # 扫描内置 Nasdaq-100 名单
+python3 batch_screen.py NVDA MU AVGO AAPL      # 扫描指定标的
+python3 batch_screen.py --nasdaq100 --workers 12  # 调并发数（默认 8）
+python3 batch_screen.py --nasdaq100 --json     # JSON 输出
+```
+
+输出：BUY / WAIT / REJECT 三档汇总。BUY 档按 baseline 折价从深到浅排序（越便宜越靠前），并列出现价/baseline/折价/PE/波动率/区间涨跌。
+
+> 注意：内置 Nasdaq-100 名单是**静态清单**，实际成分会随交易所调整变动（退市/新纳入的标的会出现「数据不足」）。需要精确时请以交易所最新公告更新 `batch_screen.py` 里的 `NASDAQ100` 列表。
+
+### 步骤 2：记录建仓（人工写报告）
+
+从 BUY 档挑选标的后，把建仓信息落到一份**建仓报告**里（见下方「报告路径规范」）。报告需记录：建仓日期、每只的建仓价/股数/baseline/策略判断、假设本金。
+
+### 步骤 3：逐日复盘（`review_positions.py`）
+
+过几天回来，工具自动拉建仓日至今的每日行情，逐日判定止盈/止损：
+
+```bash
+python3 review_positions.py             # 复盘全部建仓
+python3 review_positions.py --ticker HON # 只看某只
+python3 review_positions.py --json       # JSON 输出
+```
+
+**判定逻辑（关键）**：
+- **止盈**：当日**最高价 high ≥ 建仓价 ×(1+5%)** → 视为限价单成交，实现 +5% 卖出。用 high 而非收盘价，是为了捕捉「盘中冲高触发限价单、收盘却回落」的真实成交。
+- **止损**：当日**最低价 low ≤ baseline ×(1−8%)** → 触发止损离场。
+- 一旦触发即清仓，后续交易日标记「已离场」，不再参与计算。同日两者都触发时，保守起见先记止损。
+- 未触发的标的按最新收盘价算浮动盈亏。
+
+输出：每只标的的**逐日曲线**（日期/最高/最低/收盘/盘中最大涨幅/状态）+ 触发日 + 持有天数 + 盈亏，末尾附**组合汇总表**。
+
+**复盘参数**在 `review_positions.py` 顶部：`ENTRY_DATE`（建仓日）、`TAKE_PROFIT_PCT`（止盈 %，默认 5）、`STOP_LOSS_PCT`（止损 %，默认 8）、`CAPITAL_PER`（每只本金）、`POSITIONS`（建仓台账，需与建仓报告一致）。**换一批持仓复盘时，改这里的 `POSITIONS` 和 `ENTRY_DATE` 即可。**
+
+**复盘工具的局限**：
+- 只能拉到**已发生**的交易日。建仓当天运行会显示「尚无新交易日数据」，需隔几天有新收盘数据后再复盘。
+- 日线只有每日 OHLC，**无分时**。只能判「当日是否触及 5%」，无法判具体时点，也不处理跳空开盘。适合波段复盘，非分钟级回测。
+
+---
+
+## 报告路径规范（沿用 reports/ schema）
+
+本策略产出的报告统一放到项目 **`reports/` 根目录**（属组合/策略类报告，不建公司子目录），命名沿用项目 schema `{主题}-{类型}-{YYYYMMDD}.md`，便于从 reports 中定位：
+
+| 报告类型 | 命名格式 | 示例 |
+|---------|---------|------|
+| 模拟建仓/复盘记录 | `auto-runner-模拟建仓-{YYYYMMDD}.md` | `reports/auto-runner-模拟建仓-20260812.md` |
+| 批量选股结果（如需留档） | `auto-runner-选股-{指数}-{YYYYMMDD}.md` | `reports/auto-runner-选股-Nasdaq100-20260812.md` |
+
+**建仓报告应包含**（与 `review_positions.py` 的 `POSITIONS` 台账一一对应）：
+1. 建仓日期、策略版本、数据快照区间、假设本金
+2. 建仓一览表：标的 / 判断 / 建仓价 / 股数 / 实际投入
+3. 各标的建仓时点的四关数据快照（baseline / PE / 波动 / 趋势 / 中枢排列）
+4. 复盘检查清单（留空，回来填复盘价、止盈/止损触发、盈亏）
+5. 局限声明
+
+> 建仓报告里的 `建仓价 / 股数 / baseline` 必须与 `review_positions.py` 顶部 `POSITIONS` 保持一致，否则复盘结果会与报告对不上。当前 `POSITIONS` 对应 `reports/auto-runner-模拟建仓-20260812.md`。
