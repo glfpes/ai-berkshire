@@ -3,7 +3,7 @@
 review_positions.py — auto-runner 模拟建仓复盘工具
 
 针对 2026-08-12 的模拟建仓（见 reports/auto-runner-模拟建仓-20260812.md），
-自动拉取建仓日至今每一天的行情，逐日判定「涨 5% 止盈 / 跌破 baseline 下方 8% 止损」
+自动拉取建仓日至今每一天的行情，逐日判定「涨 5% 止盈 / 跌破建仓价下方 8% 止损」
 是否触发，输出每只标的的每日曲线、触发日、持有天数与盈亏。
 
 止盈/止损判定用「日内最高/最低价」而非收盘价：
@@ -34,7 +34,7 @@ from market_data import fetch_prices
 
 ENTRY_DATE = "2026-08-12"       # 建仓日（快照数据截至 08-11 收盘）
 TAKE_PROFIT_PCT = 5.0           # 止盈：涨 5%
-STOP_LOSS_PCT = 8.0             # 止损：跌破 baseline 下方 8%
+STOP_LOSS_PCT = 8.0             # 止损：跌破建仓价下方 8%
 CAPITAL_PER = 10000.0           # 每只名义本金
 
 POSITIONS = [
@@ -58,7 +58,9 @@ def review_one(pos, days=120):
     baseline = pos["baseline"]
 
     tp_price = round(entry * (1 + TAKE_PROFIT_PCT / 100), 4)   # 止盈目标价
-    sl_price = round(baseline * (1 - STOP_LOSS_PCT / 100), 4)  # 止损价
+    # 止损相对【建仓价】向下，而非相对 baseline
+    # （baseline 可能高于建仓价，若用 baseline×0.92 会使止损线跑到建仓价上方，导致建仓即"被止损"）
+    sl_price = round(entry * (1 - STOP_LOSS_PCT / 100), 4)     # 止损价
 
     prices = fetch_prices(ticker, days=days)
     if not prices:
@@ -143,7 +145,7 @@ def print_one(r):
     print(f"\n{'=' * 72}")
     print(f"  {r['ticker']}  [{r['verdict']}]   建仓 ${r['entry']} × {r['shares']}股")
     print(f"  止盈目标 ${r['tp_price']}(+{TAKE_PROFIT_PCT}%)   "
-          f"止损线 ${r['sl_price']}(baseline下方{STOP_LOSS_PCT}%)")
+          f"止损线 ${r['sl_price']}(建仓价下方{STOP_LOSS_PCT}%)")
     print(f"{'-' * 72}")
     if not r["daily"]:
         print(f"  建仓日({ENTRY_DATE})至今尚无新交易日数据，等收盘后再复盘。")
@@ -171,7 +173,7 @@ def print_portfolio(results):
     total_pnl = sum(r["pnl"] for r in ok)
     print(f"\n{'#' * 72}")
     print(f"  组合复盘汇总   建仓日 {ENTRY_DATE}   复盘日 {datetime.now():%Y-%m-%d}")
-    print(f"  规则：涨 {TAKE_PROFIT_PCT}% 止盈 / 跌破 baseline 下方 {STOP_LOSS_PCT}% 止损")
+    print(f"  规则：涨 {TAKE_PROFIT_PCT}% 止盈 / 跌破建仓价下方 {STOP_LOSS_PCT}% 止损")
     print(f"{'#' * 72}")
     print(f"  {'标的':<8}{'判断':<14}{'状态':<10}{'持有天':>7}{'收益%':>9}{'盈亏$':>12}")
     for r in ok:
