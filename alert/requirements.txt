@@ -1,0 +1,4 @@
+# SNDK 实时监控脚本依赖
+# 唯一第三方依赖：yfinance（1.6.0+ 内置 WebSocket 实时流支持）
+# 其余功能（Telegram 推送、macOS 通知）均走 Python 标准库，无需额外安装
+yfinance>=1.6.0
