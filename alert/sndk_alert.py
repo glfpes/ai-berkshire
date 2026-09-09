@@ -40,6 +40,7 @@ SNDK 实时价格监控 + 报警脚本（WebSocket 实时流版）
 """
 
 import argparse
+import logging
 import os
 import subprocess
 import sys
@@ -52,6 +53,18 @@ try:
     import yfinance as yf
 except ImportError:
     sys.exit("缺少依赖，请先运行: python3 -m pip install yfinance")
+
+# yfinance / websockets 断线时会打整页 traceback，把日志淹掉；断线由本脚本自己处理
+for _n in ("yfinance", "websockets", "websockets.client", "urllib3", "peewee"):
+    logging.getLogger(_n).setLevel(logging.CRITICAL)
+
+# 日志时间戳格式：带日期，跨天/长期后台运行时才能定位到具体某天
+TS_FMT = "%Y-%m-%d %H:%M:%S"
+
+
+def now_ts() -> str:
+    """统一的日志时间戳（本地时间，含日期）。"""
+    return datetime.now().strftime(TS_FMT)
 
 
 # 市场时段标记（Yahoo WebSocket 的 marketHours 字段编码）
@@ -181,6 +194,8 @@ class Alerter:
         self.jump_amount = jump_amount  # 跳变报警阈值(美元)，窗口内涨跌额绝对值>=该值报警，None=不启用
         self.jump_window = jump_window  # 跳变统计窗口(秒)，默认30
         self.jump_price_window = deque()  # 跳变滑动窗口 [(时间戳, 价格), ...]
+        self.last_msg_ts = time.time()  # 上次收到 WebSocket 行情的时间（看门狗用）
+        self.lock = threading.Lock()    # WS 线程与 REST 轮询线程共用报警状态，需加锁
 
     def compute_pnl(self, price):
         """计算持仓收益，返回 (市值, 净收益, 收益率%)；无持仓返回 None。"""
@@ -249,7 +264,7 @@ class Alerter:
         last_price = self.jump_price_window[-1][1]
         return last_price - first_price, first_price
 
-    def on_message(self, msg):
+    def on_message(self, msg, source="ws"):
         if msg.get("id") != self.symbol:
             return
         price = msg.get("price")
@@ -258,8 +273,16 @@ class Alerter:
 
         mh = msg.get("marketHours")
         session = MARKET_HOURS.get(mh, f"时段{mh}") if mh is not None else "夜盘/延长"
+        if source == "rest":
+            session = "REST兜底"
         now = time.time()
-        ts = datetime.now().strftime("%H:%M:%S")
+        ts = now_ts()
+        if source == "ws":
+            self.last_msg_ts = now
+        with self.lock:
+            self._handle(price, session, now, ts)
+
+    def _handle(self, price, session, now, ts):
 
         # 维护涨速滑动窗口（仅在启用时）
         if self.surge_pct is not None:
@@ -368,45 +391,119 @@ class Alerter:
                       f"{sign}{amount:.2f} (|{amount:.2f}| >= {self.jump_amount}) ***")
 
 
+def fetch_rest_price(symbol):
+    """REST 兜底取价：优先 fast_info，失败回退到含盘前盘后的分钟线。"""
+    try:
+        fi = yf.Ticker(symbol).fast_info
+        p = fi.get("lastPrice") if hasattr(fi, "get") else fi["lastPrice"]
+        if p:
+            return float(p)
+    except Exception:
+        pass
+    try:
+        h = yf.Ticker(symbol).history(period="1d", interval="1m", prepost=True)
+        if len(h):
+            return float(h["Close"].iloc[-1])
+    except Exception:
+        pass
+    return None
+
+
+def rest_poll_loop(alerter, symbol, interval, stop_event):
+    """REST 兜底轮询：WebSocket 断流时保证阈值判断不中断。"""
+    while not stop_event.wait(interval):
+        price = fetch_rest_price(symbol)
+        if price is None:
+            continue
+        # WS 刚推过就不重复走一遍报警逻辑，避免日志和通知翻倍
+        if time.time() - alerter.last_msg_ts < interval / 2:
+            continue
+        try:
+            alerter.on_message({"id": symbol, "price": price}, source="rest")
+        except Exception as e:
+            print(f"[{now_ts()}] REST 兜底异常: {e}", file=sys.stderr)
+
+
+def ws_watchdog_loop(alerter, holder, idle_timeout, stop_event):
+    """看门狗：WebSocket 静默超时就掐断连接，逼主循环重连。"""
+    while not stop_event.wait(10):
+        idle = time.time() - alerter.last_msg_ts
+        if idle < idle_timeout:
+            continue
+        ws = holder.get("ws")
+        if ws is None:
+            continue
+        print(f"[{now_ts()}] 看门狗：WS 已静默 {idle:.0f}s "
+              f"(>{idle_timeout}s)，强制重连")
+        holder["ws"] = None
+        alerter.last_msg_ts = time.time()   # 重置，避免连环触发
+        try:
+            ws.close()
+        except Exception:
+            pass
+
+
 def run(symbol, threshold, cooldown, lots=None, pnl_threshold=None,
         stop_loss_pct=None, low_threshold=None,
         surge_pct=None, surge_window=300,
-        jump_amount=None, jump_window=30):
+        jump_amount=None, jump_window=30,
+        poll_interval=60, ws_idle_timeout=300):
     alerter = Alerter(symbol, threshold, cooldown, lots, pnl_threshold,
                       stop_loss_pct, low_threshold, surge_pct, surge_window,
                       jump_amount, jump_window)
-    print(f"开始实时监控 {symbol}，阈值 > {threshold} USD"
-          f"（WebSocket 实时流，覆盖盘前/主板/盘后/夜盘）。Ctrl+C 退出。")
+    print(f"[{now_ts()}] ===== 启动监控 {symbol} (PID {os.getpid()}) =====")
+    print(f"[{now_ts()}] 配置 | 上破阈值 > {threshold} USD | cooldown {cooldown}s "
+          f"| 数据源 Yahoo WebSocket + REST 兜底")
     if low_threshold is not None:
-        print(f"价格下限报警：价格 < {low_threshold} USD 时触发")
+        print(f"[{now_ts()}] 配置 | 下破阈值 < {low_threshold} USD")
     if surge_pct is not None:
-        print(f"涨跌速报警：过去 {surge_window/60:g} 分钟涨/跌幅 >= {surge_pct}% "
-              f"时触发（涨跌都报）")
+        print(f"[{now_ts()}] 配置 | 涨跌速 过去 {surge_window/60:g} 分钟涨/跌幅 "
+              f">= {surge_pct}%（涨跌都报）")
     if jump_amount is not None:
-        print(f"跳变报警：过去 {jump_window} 秒涨/跌 >= {jump_amount} USD "
-              f"时触发（涨跌都报）")
+        print(f"[{now_ts()}] 配置 | 跳变 过去 {jump_window} 秒涨/跌 >= "
+              f"{jump_amount} USD（涨跌都报）")
     if alerter.total_qty > 0:
-        print(f"持仓明细：" + "；".join(
-            f"{q:g}股@{c:.2f}" for c, q in alerter.lots))
-        print(f"合计 {alerter.total_qty:g} 股，总成本 {alerter.total_cost:.2f} USD，"
-              f"平均单股成本 {alerter.avg_cost:.2f} USD")
+        print(f"[{now_ts()}] 持仓 | " + "；".join(
+            f"{q:g}股@{c:.2f}" for c, q in alerter.lots)
+            + f" | 合计 {alerter.total_qty:g} 股，总成本 {alerter.total_cost:.2f} USD，"
+              f"均价 {alerter.avg_cost:.2f} USD")
         if pnl_threshold is not None:
-            print(f"收益报警：浮动收益 > {pnl_threshold} USD 时触发")
+            print(f"[{now_ts()}] 配置 | 收益报警 浮动收益 > {pnl_threshold} USD")
         if stop_loss_pct is not None:
             sl_price = alerter.avg_cost * (1 + stop_loss_pct / 100)
-            print(f"止损报警：收益率 <= {stop_loss_pct}% 时触发"
-                  f"（约当价格 {sl_price:.2f} USD）")
-    print("Telegram 推送：" + ("已启用" if (TELEGRAM_TOKEN and TELEGRAM_CHAT_ID)
-                              else "未配置"))
-    print()
+            print(f"[{now_ts()}] 配置 | 止损报警 收益率 <= {stop_loss_pct}%"
+                  f"（约当价 {sl_price:.2f} USD）")
+    print(f"[{now_ts()}] 配置 | Telegram "
+          + ("已启用" if (TELEGRAM_TOKEN and TELEGRAM_CHAT_ID) else "未配置")
+          + f" | REST 兜底 {('每 %ds' % poll_interval) if poll_interval > 0 else '关闭'}"
+          + f" | WS 看门狗 {('静默 %ds 重连' % ws_idle_timeout) if ws_idle_timeout > 0 else '关闭'}")
 
+    stop_event = threading.Event()
+    holder = {"ws": None}
+    if poll_interval > 0:
+        threading.Thread(target=rest_poll_loop,
+                         args=(alerter, symbol, poll_interval, stop_event),
+                         daemon=True).start()
+    if ws_idle_timeout > 0:
+        threading.Thread(target=ws_watchdog_loop,
+                         args=(alerter, holder, ws_idle_timeout, stop_event),
+                         daemon=True).start()
+
+    backoff = 3
     while True:
         ws = None
+        conn_start = time.time()
         try:
-            ws = yf.WebSocket()
+            ws = yf.WebSocket(verbose=False)
+            holder["ws"] = ws
             ws.subscribe([symbol])
+            alerter.last_msg_ts = time.time()
+            print(f"[{now_ts()}] WS 已连接，开始接收 {symbol} 行情")
             ws.listen(alerter.on_message)
+            # listen 内部吞掉异常后会正常返回，这里同样按断线处理
+            print(f"[{now_ts()}] WS 断流，{backoff}s 后重连")
         except KeyboardInterrupt:
+            stop_event.set()
             print("\n已停止监控。")
             try:
                 if ws: ws.close()
@@ -414,13 +511,17 @@ def run(symbol, threshold, cooldown, lots=None, pnl_threshold=None,
                 pass
             return
         except Exception as e:
-            print(f"[{datetime.now():%H:%M:%S}] 连接中断: {type(e).__name__}，"
-                  f"3 秒后重连...", file=sys.stderr)
+            print(f"[{now_ts()}] 连接中断: {type(e).__name__}，"
+                  f"{backoff}s 后重连")
+        finally:
+            holder["ws"] = None
             try:
                 if ws: ws.close()
             except Exception:
                 pass
-            time.sleep(3)
+        # 连接活过 60 秒说明网络正常，重置退避；否则指数退避到 30 秒封顶
+        backoff = 3 if (time.time() - conn_start) > 60 else min(backoff * 2, 30)
+        time.sleep(backoff)
 
 
 def main():
@@ -451,6 +552,11 @@ def main():
     ap.add_argument("--stop-loss-pct", type=float, default=None,
                     help="止损报警阈值(百分比,负数)，收益率 <= 该值时报警，"
                          "需配合 --position 使用，如 --stop-loss-pct -8")
+    ap.add_argument("--poll-interval", type=int, default=60,
+                    help="REST 兜底轮询间隔(秒)，WebSocket 断流时靠它兜底，"
+                         "0=关闭，默认 60")
+    ap.add_argument("--ws-idle-timeout", type=int, default=300,
+                    help="WebSocket 静默超过该秒数即强制重连，0=关闭，默认 300")
     ap.add_argument("--telegram-token", default=None,
                     help="Telegram Bot token，配置后报警推送到 Telegram；"
                          "不填则读环境变量 TELEGRAM_TOKEN 或文件默认值")
@@ -482,7 +588,8 @@ def main():
         run(args.symbol, args.threshold, args.cooldown, lots,
             args.pnl_threshold, args.stop_loss_pct, args.low_threshold,
             args.surge_pct, args.surge_window,
-            args.jump_amount, args.jump_window)
+            args.jump_amount, args.jump_window,
+            args.poll_interval, args.ws_idle_timeout)
     except KeyboardInterrupt:
         print("\n已停止监控。")
 
